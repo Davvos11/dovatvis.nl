@@ -8,12 +8,12 @@ function generateCard(title, text, url, imgUrl) {
     let card = document.createElement('div')
     card.className = "card h-100"
 
-    let img = document.createElement('img')
-    img.className = "card-img-top"
+    let img = document.createElement('div')
+    img.className = `card-img-top ${randomBackgroundClass()}`
     if (imgUrl !== "" && imgUrl !== undefined) {
-        img.src = imgUrl
-    } else {
-        img.src = 'https://placehold.it/300x200'
+        let imgImg = document.createElement('img')
+        imgImg.src = imgUrl
+        img.appendChild(imgImg)
     }
     card.appendChild(img)
 
@@ -53,6 +53,12 @@ function generateCards(projects) {
         cards.append(generateCard(project['title'], project['description'],
             project['url'], project['imgUrl']))
     }
+}
+
+function randomBackgroundClass() {
+    const classes = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark']
+        .map(e => `bg-${e}`)
+    return classes[randInt(0, classes.length)]
 }
 
 generateCards(projects)

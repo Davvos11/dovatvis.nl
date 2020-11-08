@@ -1,1 +1,7 @@
+#cards .card-img-top {
+    height: 200px;
+}
 
+#cards .card-img-top img {
+    height: 100%;
+}
