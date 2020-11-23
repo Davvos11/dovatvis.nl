@@ -6,5 +6,6 @@ export default
     buttons: [{text: 'Github', url: 'https://github.com/Davvos11/ishetaltijdvooreenbakkieyoghurt'}]},
     {title: 'Share',
     description: 'Get a temporary URL for uploaded files',
-    url: 'https://share.dovatvis.nl'}
+    url: 'https://share.dovatvis.nl',
+    buttons: [{text: 'Github', url: 'https://github.com/Davvos11/share'}]}
 ]
