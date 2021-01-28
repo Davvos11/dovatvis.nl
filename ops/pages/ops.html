@@ -1,0 +1,31 @@
+<html lang="nl">
+  <head>
+    <title>OPS text converter</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="../css/ops.css">
+    <link rel="stylesheet" type="text/css" href="../css/default.css">
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/includehtml.js"></script>
+    <script type="text/javascript" src="../js/ops.js"></script>
+  </head>
+  <body>
+  	<header w3-include-html="../header.html"></header>
+  	<script type="text/javascript">includeHTML();</script>
+  	<main>
+	  	Liednummer: <input type="number" id="opsnum" class="rightinput" min="1" value="1"><br>
+	  	Liednummer automatisch verhogen: <input type="checkbox" id="opsnumautoinc" class="rightinput" checked=><br>
+	  	Talen met fonetisch en overbodig NL: <input type="text" id="opshalflangs" class="rightinput" value="Farsi, Arabisch, Tigrinya"><br>
+		<div id="opsinputdiv">
+			<textarea id="opsinput" class="iotext" ></textarea><br>
+			<button onclick="opsConvert()">Convert</button>
+			<button onclick="opsClearInput()">Clear</button> <br>
+		</div>
+		<div id="opsoutputdiv">
+			<textarea id="opsoutput" class="iotext" readonly></textarea><br>
+	  		<button onclick="opsCopyOutput()">Copy</button> <br>
+	  	</div>
+	</main>
+  </body>
+</html>

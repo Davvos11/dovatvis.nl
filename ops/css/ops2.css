@@ -1,0 +1,59 @@
+@media only screen and (min-width: 992px) {
+	main {
+		max-width: 90vw;
+	}
+}
+
+.numinput {
+	width: 40px !important;
+}
+
+#inputs textarea{
+	height: 80vh;
+	max-height: 400px;
+}
+
+
+.combined-borders-top {
+	border-bottom: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.combined-borders-bottom {
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+#output {
+	min-height: 400px;
+}
+
+/*Sortable output*/
+.split {
+	cursor: grab;
+	background: grey;
+	color: #2b2b2b;
+	line-height: normal;
+	padding-left: 20%;
+}
+.title {
+	font-weight: bold;
+	background-color: #1ba1e2;
+}
+.couplet {
+	margin-bottom: 20px;
+}
+#sortable-output .fa-plus {
+	top: 8px;
+	right: 8px;
+	cursor: pointer;
+	float: right;
+	position: relative;
+}
+
+.collapse-sortable-btn {
+	float: right;
+	margin-top: -50px;
+}

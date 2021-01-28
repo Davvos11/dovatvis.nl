@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+	  <title>OPS text converter</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta charset="UTF-8">
+
+<!--	  Libraries: -->
+	  <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+	  <!--	  CSS: -->
+   	 <link rel="stylesheet" type="text/css" href="../css/ops2.css">
+   	 <link rel="stylesheet" type="text/css" href="../css/default.css">
+
+<!--	  JS:-->
+  	  <script type="text/javascript" src="../js/includehtml.js"></script>
+  	  <script type="text/javascript" src="../js/ops2examplevars.js"></script>
+  	  <script type="text/javascript" src="../js/ops2.js"></script>
+  </head>
+  <body>
+  	<header w3-include-html="../header.html"></header>
+  	<script type="text/javascript">includeHTML();</script>
+  	<main class="container-fluid">
+
+
+  		<div id="settings" class="row mb-2 justify-content-lg-around">
+			<div class="col-12 col-md-8 col-lg-7 col-xl-6">
+				<span class="text-muted">Bij bugs of vragen: <a href="mailto:vosdavid2@gmail.com">vosdavid2@gmail.com</a><br>
+				Gebruik evt. <a href="../pages/splitter.html">tekst splitter</a> om talen te genereren</span>
+				<span class="form-inline">
+					Coupletten splitten na <input type="number" class="numinput form-control bg-dark text-light pl-2 pr-0 py-1 mx-2" id="splitnum" min="1" value="5"> regels (bij liederen zonder fonetisch)
+				</span><span class="form-inline">
+					Coupletten splitten na <input type="number" class="numinput form-control bg-dark text-light pl-2 pr-0 py-1 mx-2" id="splitnumf"  min="1" value="3"> regels (bij liederen met fonetisch)
+				</span>
+				Zorg ervoor dat alle talen evenveel regels hebben.<br><br>
+			</div>
+
+			<div class="col-12 col-md-4 col-lg-3 d-flex flex-column flex-sm-row flex-md-column justify-content-around">
+				<span class="form-check mx-auto mx-sm-0 my-auto my-md-0">
+					<input class="form-check-input" onclick="toggleLang1f()" type="checkbox" id="foncheck" checked>
+					<label class="form-check-label" for="foncheck">Fonetisch</label>
+				</span>
+				<span class="d-none d-md-flex text-secondary">Talen omdraaien:</span>
+				<button class="btn btn-outline-warning p-1 mx-5 mx-sm-0 mr-md-auto" onclick="swapLanguages('lang1input', 'lang2input', 'lang1name', 'lang2name')">Taal 1 <i class="fa fa-arrows-h"></i> Taal 2</button>
+				<button class="btn btn-outline-warning p-1 mx-5 mx-sm-0 mr-md-auto" onclick="swapLanguages('lang1input', 'lang1finput', 'lang1name', 'lang1name')">Taal 1 <i class="fa fa-arrows-h"></i> Fonetisch</button>
+				<button class="btn btn-outline-warning p-1 mx-5 mx-sm-0 mr-md-auto" onclick="swapLanguages('lang1finput', 'lang2input', 'lang2name', 'lang2name')">Fonetisch <i class="fa fa-arrows-h"></i> Taal 2</button>
+			</div>
+  		</div>
+
+
+		<div class="row px-3 px-lg-0" id="inputs">
+			<div id="lang1inputdiv" class="col-12 col-sm-6 col-lg-4 px-0 mb-4 pr-2">
+				<label for="lang1input" class="col text-center mb-0">Taal 1:</label>
+				<input type="text" class="col-6 mx-auto form-control bg-dark text-light mb-2" id="lang1name">
+				<textarea id="lang1input" class="form-control bg-dark text-light"></textarea>
+			</div>
+			<div id="lang1finputdiv" class="col-12 col-sm-6 col-lg-4 px-0 mb-4 mt-sm-auto px-2">
+				<label for="lang1finput" class="col text-center mb-0">Fonetisch:</label>
+				<input type="text" class="col form-control mb-2 d-none d-sm-block" style="visibility:hidden;">
+				<textarea id="lang1finput" class="form-control bg-dark text-light"></textarea>
+		  	</div>
+		  	<div id="lang2inputdiv" class="col-12 col-sm-8 col-lg-4 px-0 mb-4 mt-lg-auto mx-auto mx-lg-0 pl-2">
+				<label for="lang2input" class="col text-center mb-0">Taal 2:</label>
+				<input type="text" class="col-6 mx-auto form-control bg-dark text-light mb-2" id="lang2name">
+		  		<textarea id="lang2input" class="form-control bg-dark text-light"></textarea>
+		  	</div>
+	 	</div>
+
+
+		<div class="btn-group d-flex justify-content-center mb-3" role="group">
+			<button onclick="opsConvert()"   type="button" class="px-2 btn btn-success">Genereer</button>
+			<button onclick="clearInput()"   type="button" class="px-2 btn btn-danger">Clear</button>
+			<button onclick="exampleInput()" type="button" class="px-2 btn btn-primary">Voorbeeld</button>
+		</div>
+
+
+	  	<div class="row px-3 px-lg-0 mb-2" id="outputdiv" >
+			<div class="col-sm-6">
+				<p class="text-secondary mb-0">Optioneel: verplaats [split] tags door ze te slepen.<br>
+					Druk op <i class="fa fa-plus"></i> om een [split] toe te voegen.</p>
+				<button class="btn btn-light d-block d-sm-none collapse-sortable-btn" data-toggle="collapse" href="#sortable-output"
+						aria-expanded="true" aria-controls="sortable-output">
+					<i class="fa fa-caret-up"></i> Verberg</button>
+				<div class="collapse show d-sm-block" id="sortable-output"></div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<button class="btn btn-success combined-borders-top" onclick="copyOutput()" type="button">Kopiëer</button>
+					</div>
+					<input type="text" class="form-control bg-dark text-white combined-borders-top" value="Ouput:" readonly aria-label="" aria-describedby="basic-addon1">
+				</div>
+				<textarea id="output" class="form-control bg-dark text-light combined-borders-bottom" readonly></textarea><br>
+			</div>
+	  	</div>
+	</main>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+			crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+			crossorigin="anonymous"></script>
+  </body>
+</html>

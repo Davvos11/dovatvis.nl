@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Text splitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <!--	  Libraries: -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--	  CSS: -->
+    <link rel="stylesheet" type="text/css" href="../css/default.css">
+
+    <!--	  JS:-->
+    <script type="text/javascript" src="../js/includehtml.js"></script>
+    <script type="text/javascript" src="../js/splitter.js"></script>
+</head>
+<body>
+    <header w3-include-html="../header.html"></header>
+    <script type="text/javascript">includeHTML();</script>
+    <div class="container">
+        <div id="settings" class="collapse">
+        <div class="form-group row">
+            <label for="regex-titles" class="mb-0">Regels die in elke output moeten <span class="text-muted">(regex formaat zonder /)</span>:</label>
+            <div class="input-group">
+                <input class="form-control bg-dark text-light" id="regex-titles" type="text" placeholder="Regex">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" onclick="setDefaultRegex(0)"><i class="fa fa-refresh"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="regex-ignore" class="mb-0">Regels die genegeerd moeten worden <span class="text-muted">(regex formaat zonder /)</span>:</label>
+            <div class="input-group">
+                <input class="form-control bg-dark text-light" id="regex-ignore" type="text" placeholder="Regex">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" onclick="setDefaultRegex(1)"><i class="fa fa-refresh"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="d-flex flex-row container p-0 row">
+            <div class="flex-col form-inline">
+                <label for="amount">Aantal outputs:</label>
+                <input type="number" class="form-control bg-dark text-light ml-3 pr-0 pl-2" value="2"
+                       id="amount" style="width: 40px">
+            </div>
+            <div class="flex-col">
+                <button class="btn btn-primary ml-5" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                    Geavanceerd <i class="fa fa-caret-up"></i>
+                </button>
+            </div>
+        </div>
+        <div class="form-group row mt-3">
+            <label for="input">Tekst:</label>
+            <textarea class="form-control bg-dark text-light" id="input" rows="3" style="height: 300px;"></textarea>
+            <button type="button" class="btn btn-primary" onclick="split()">
+                <i class="fa fa-chevron-circle-right"></i> Genereer</button>
+        </div>
+        <div class="row d-flex flex-column align-content-center">
+            <span class="d-flex justify-content-center">Output:</span>
+            <button type="button" class="btn btn-primary justify-content-center d-none"
+                    id="export-ops" onclick="exportOps()">Export naar OPS</button> <!--(gets d-flex class)-->
+        </div>
+        <div class="row mb-2" id="output" style="height: 300px;">
+<!--            <textarea class="form-control bg-dark col-12 col-sm-6 col-md-4 col-lg-3 text-light"></textarea>-->
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</body>
+</html>

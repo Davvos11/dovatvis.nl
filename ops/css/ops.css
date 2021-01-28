@@ -1,0 +1,34 @@
+main{
+	display: block;
+	line-height: 180%;
+	padding: 0 5px 5px;
+}
+@media screen and (min-width: 850px){
+	main{
+		width: 850px;
+	}
+}
+@media not screen and (min-width: 850px){
+	main{
+		width: 100vw;
+		max-width: 400px;
+	}
+}
+.rightinput{
+	float: right;
+	text-align: right;
+}
+#opsnum{
+	width: 50px;
+}
+#opsinputdiv{
+	float: left;
+}
+#opsoutputdiv{
+	float: right;
+}
+.iotext{
+	width: 100vw;
+	max-width: 400px;
+	height: 500px;
+}
