@@ -1,0 +1,68 @@
+@font-face{
+    font-family: "Comic Sans MS";
+    src: url('/fonts/ComicSansMS3.ttf?v=1')  format('truetype');
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; padding: 0;
+}
+
+#rainbow {
+    background: linear-gradient(180deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+    background-size: 1800vh 1800vh;
+    animation: rainbow 5s linear, rainbowtext 3s linear alternate;
+    animation-iteration-count: infinite;
+}
+
+.large {
+    font-size: 10vw !important;
+}
+
+#wrapper {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 0;
+    transition: font-size 10s ease-in;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#button {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 28px;
+    font-size: 10vw;
+    cursor: pointer;
+    text-align: center;
+}
+
+#button:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+@keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+
+@keyframes rainbowtext {
+    0% {color: #1de840;}
+    12.5% {color: #1ddde8;}
+    25% {color: #2b1de8;}
+    35.5% {color: #dd00f3;}
+    50% {color: #dd00f3;}
+    62.5% {color: #ff2400}
+    75% {color: #e81d1d;}
+    87.5% {color: #e8b71d;}
+    100% {color: #e3e81d}
+}

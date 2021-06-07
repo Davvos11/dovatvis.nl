@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dovatvis.nl/">
+    <meta property="og:title" content="Interessante informatie">
+    <meta property="og:description" content="Een pagina met een interessante mededeling.">
+    <meta property="og:image" content="https://dovatvis.nl/clown/info.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="Een pagina met een interessante mededeling.">
+
+    <title>Je bent een clown</title>
+    <link rel="stylesheet" href="./style.css?v=20" type="text/css"/>
+</head>
+<body>
+    <button id="button" onclick="play()" class="hidden">Klik hier</button>
+    <div id="wrapper">
+        je bent een clown
+    </div>
+<!--    <span id="log"></span>-->
+    <audio id="music">
+        <source src="" type="audio/mpeg">
+    </audio>
+    <script>
+        const files = [["circus0.mp3", 12300], ["circus1.mp3", 11500], ["circus2.mp3", 14100], ["circus3.mp3", 10300]];
+
+        // Try to get the specified file
+        let num = window.location.hash.substr(1)
+        if (num === "") {
+            // Get a random file
+            num = Math.floor(Math.random() * files.length)
+        }
+        // Get the file
+        const file = files[num];
+
+        // Get the html elements
+        const player = document.getElementById('music');
+        const source = player.getElementsByTagName('source')[0];
+        const wrapper = document.getElementById('wrapper')
+
+        // Change the source
+        source.src = file[0];
+        player.load();
+
+        const animations = () => {
+            // Remove the button (if present)
+            document.getElementById("button").classList.add("hidden")
+
+            // Start the css rainbow animation after the "intro"
+            const listener = () => {
+                if (player.currentTime * 1000 >= file[1]) {
+                    document.body.id = "rainbow";
+                    player.removeEventListener('timeupdate', listener);
+                }
+            }
+            player.addEventListener('timeupdate', listener, false);
+
+            // Start increasing the text size (css transition)
+            wrapper.style.transitionDuration = (file[1] / 1000 + 1) + "s";
+            wrapper.classList.add("large");
+        }
+
+        const play = () => {
+            // Try to Start playing
+            player.volume = 0.5;
+            player.play().then(animations).catch(error => {
+                // Autoplay is probably not allowed, show button
+                document.getElementById("button").classList.remove("hidden")
+            });
+        }
+
+        play()
+    </script>
+</body>
+</html>
