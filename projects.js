@@ -7,5 +7,9 @@ export default
     {title: 'Share',
     description: 'Get a temporary URL for uploaded files',
     url: 'https://share.dovatvis.nl',
-    buttons: [{text: 'Github', url: 'https://github.com/Davvos11/share'}]}
+    buttons: [{text: 'Github', url: 'https://github.com/Davvos11/share'}]},
+    {title: 'Beugelcompetitie',
+    description: 'Haha trek beugel-ad',
+    url: 'https://beugels.dovatvis.nl',
+    buttons: [{text: 'Github', url: 'https://github.com/Davvos11/beugelcompetitie'}]}
 ]
