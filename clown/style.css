@@ -66,3 +66,16 @@ body {
     87.5% {color: #e8b71d;}
     100% {color: #e3e81d}
 }
+
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    -webkit-animation: rotating 2s linear infinite;
+}

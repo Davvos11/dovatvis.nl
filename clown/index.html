@@ -51,6 +51,7 @@
             const listener = () => {
                 if (player.currentTime * 1000 >= file[1]) {
                     document.body.id = "rainbow";
+                    document.getElementById(wrapper).classList.add("rotating");
                     player.removeEventListener('timeupdate', listener);
                 }
             }
