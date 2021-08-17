@@ -1,6 +1,6 @@
 @font-face{
     font-family: "Comic Sans MS";
-    src: url('/fonts/ComicSansMS3.ttf?v=1')  format('truetype');
+    src: url('font/ComicSansFont.ttf')  format('truetype');
 }
 
 body {
@@ -26,6 +26,7 @@ body {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 0;
     transition: font-size 10s ease-in;
+    animation-name: rotating;
 }
 
 .hidden {
