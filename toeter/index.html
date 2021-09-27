@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="toeter.ico"/>
+    <link rel="icon" href="toeter.png"/>
+    <title>Toeter!</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #wrapper {
+            max-width: 400px;
+        }
+
+        #toeter {
+            cursor: pointer;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <img src="toeter.png" alt="toeter" id="toeter" onclick="toeter()"/>
+</div>
+<script>
+    // (To expose media controls, a file needs to be more than 5 seconds long)
+    const toeterAudio = new Audio("toeter.ogg")
+    // Pause the audio after the toeter has been played, so that the media session stays active
+    toeterAudio.ontimeupdate = () => {
+        if (toeterAudio.currentTime >= 2) {
+            toeterAudio.pause()
+        }
+    }
+
+    const toeter = async () => {
+        toeterAudio.currentTime = 0;
+        await toeterAudio.play()
+
+        // Check if the browser supports media sessions, and add the handler for the skip button
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.setActionHandler('nexttrack', toeter)
+        }
+    }
+
+</script>
+</body>
+</html>
