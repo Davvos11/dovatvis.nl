@@ -50,7 +50,7 @@
     </style>
 </head>
 <body>
-<div id="hitje-container">
+<div id="hitje-container" style="display: none">
 
 </div>
 <div id="controls">
@@ -74,7 +74,14 @@
         }
     }
 
+    // Get all kinkers :cache:
+    for (let i = 0; i < KINKERS.length; i++) {
+        showKinker(KINKERS[i])
+    }
+
     showKinker(KINKERS[0])
+
+    document.getElementById('hitje-container').style.display = 'flex'
 
     const bpmToDelay = (bpm) => {
         return (60000 / bpm) / NOUEN
