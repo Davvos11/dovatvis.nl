@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hitje</title>
+
+    <style>
+        @font-face {
+            font-family: 'AgencyFB';
+            src: url('./AGENCYR.TTF') format('truetype');
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Agency FB", sans-serif;
+            background-color: black;
+            color: white;
+        }
+
+        body.strobe {
+            animation: strobe 0.1s infinite;
+        }
+
+        @keyframes strobe {
+            0%   {background-color:black;}
+            80% {background-color:white; }
+        }
+
+        #hitje-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+        }
+
+        #controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-weight: bold;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        #bpm {
+            width: 80px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+<div id="hitje-container">
+
+</div>
+<div id="controls">
+    <label>
+        BPM:<br />
+        <input type="number" value="120" id="bpm">
+    </label>
+</div>
+<script>
+    const KINKERS = [['hitje', 4], ['frans', 4], ['hitjes', 4], ['fast', 8], ['disco', 8], ['bint', 4]]
+
+    const NOUEN = 4
+    let strobe = false;
+
+    const showKinker = (kinker) => {
+        const container = document.getElementById("hitje-container")
+        container.innerHTML = ""
+
+        for (let i = 0; i < kinker[1]; i++) {
+            container.innerHTML += `<img src='kinkers/${kinker[0]}/${i}.png' style="display: ${i === 0 ? 'block' : 'none'}" />`
+        }
+    }
+
+    showKinker(KINKERS[0])
+
+    const bpmToDelay = (bpm) => {
+        return (60000 / bpm) / NOUEN
+    }
+    const msToBpm = (ms) => {
+        return 60000 / ms
+    }
+
+    let currentFrame = 0;
+    let delay = bpmToDelay(document.getElementById("bpm").value);
+    let timeOut = undefined
+
+    const nextFrame = () => {
+        const hitjes = document.querySelectorAll("#hitje-container img")
+
+        for (let i = 0; i < hitjes.length; i++) {
+            hitjes[i].style.display = i === currentFrame ? "block" : "none"
+        }
+
+        currentFrame = (currentFrame + 1) % hitjes.length
+
+        timeOut = setTimeout(nextFrame, delay)
+    }
+
+    nextFrame();
+
+    document.getElementById("bpm").oninput = () => {
+        delay = bpmToDelay(document.getElementById("bpm").value);
+        clearTimeout(timeOut)
+        nextFrame();
+    }
+
+
+    let taps = []
+
+    document.addEventListener("keydown", ev => {
+        if (ev.key === "Enter") {
+            if (strobe === false) {
+                document.body.classList.add("strobe")
+                strobe = true
+            } else {
+                document.body.classList.remove("strobe")
+                strobe = false
+            }
+        } else if (ev.key === " ") {
+            const timestamp = Date.now();
+            clearTimeout(timeOut)
+            currentFrame = 0;
+            nextFrame();
+
+            // Reset if the last tap was a long time ago
+            if (timestamp - taps[taps.length - 1] > 2000) {
+                taps = []
+            }
+            // Remove the oldest tap
+            if (taps.length > 8) {
+                taps.shift();
+            }
+            // Add the new tap
+            taps.push(timestamp);
+            if (taps.length === 1) {
+                return
+            }
+
+            // Calculate differences
+            const differences = [];
+            for (let i = 0; i < taps.length - 1; i++){
+                differences.push(taps[i+1] - taps[i])
+            }
+            const interval = differences.reduce((a, b) => a + b, 0) / differences.length;
+            delay = interval / NOUEN;
+
+            const bpm = Math.round(msToBpm(interval));
+            document.getElementById("bpm").value = bpm;
+
+        } else if (ev.key in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]) {
+            const index = ev.key === "0" ? 0 : ev.key - 1;
+            showKinker(KINKERS[index])
+        }
+    })
+</script>
+</body>
+</html>
