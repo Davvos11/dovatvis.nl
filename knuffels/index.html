@@ -1,0 +1,87 @@
+<html lang="nl">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: sans-serif;
+                text-align: center;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #knuffels  {
+                display: inline-block;
+            }
+
+            #space {
+                display: inline-block;
+            }
+        </style>
+        <title>Knuffels</title>
+    </head>
+    <body>
+        <div id="klaar" style="display: none;">
+            <img id="knuffele" src="knuffele.gif">
+            <h1>Knuffels!</h1>
+        </div>
+        <div id="niet-klaar" style="display:none;">
+            <div id="knuffels">
+                <img id="kinker1" src="gib.gif">
+                <div id="space"></div>
+                <img id="kinker2" src="gibterug.gif">
+            </div>
+            <div id="main">
+                <h1>Nog <span id="remaining"></span> tot knuffels</h1>
+                <h2>Dag <span id="elapsed"></span>/<span id="total"></span></h2>
+            </div>
+        </div>
+        <script>
+            const remainingUnit = document.getElementById("remaining")
+            const elapsedUnit = document.getElementById("elapsed")
+            const totalUnit = document.getElementById("total")
+            const spaceUnit = document.getElementById("space")
+
+            toolNice = () => {
+                const kinkerWidth = document.getElementById("kinker1").clientWidth
+
+                const now = (new Date()).getTime()
+                // const end = (new Date("2022-12-31T12:00+0200")).getTime()
+                const end = (new Date("2023-01-08T12:00+0200")).getTime()
+                const start = (new Date("2022-12-27T07:00+0200")).getTime()
+
+                const remaining = (end - now) / 1000
+                const elapsed = (now - start) / 1000
+                const total = (end - start) / 1000
+                const percentage = (elapsed / total) * 100
+
+                if (remaining < 0) {
+                    document.getElementById("klaar").style.display = 'block'
+                } else {
+                    document.getElementById("niet-klaar").style.display = 'block'
+                }
+
+                const days = Math.floor(remaining / 60 / 60 / 24)
+                const hours = Math.floor((remaining % (60 * 60 * 24)) / 60 / 60)
+                const minutes = Math.floor((remaining % (60 * 60)) / 60)
+                const seconds = Math.floor(remaining % 60)
+
+                const elapsedDay = Math.ceil(elapsed / 60 / 60 / 24)
+                const totalDay = Math.ceil(total / 60 / 60 / 24)
+
+                remainingUnit.innerText = `${days} dagen ${zeroPad(hours)}:${zeroPad(minutes)}:${zeroPad(seconds)}`
+                elapsedUnit.innerText = elapsedDay
+                totalUnit.innerText = totalDay
+                spaceUnit.style.width = `calc(100vw - 2.1 * ${kinkerWidth}px - ${percentage}vw)`
+            }
+
+            zeroPad = (int) => {
+                return int < 10 ? '0' + int : int
+            }
+
+            setInterval(toolNice, 1000)
+        </script>
+    </body>
+</html>

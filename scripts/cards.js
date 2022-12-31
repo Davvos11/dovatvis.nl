@@ -1,4 +1,4 @@
-import projects from "/projects.js?c=2"
+import projects from "/projects.js?c=3"
 
 function generateCard(title, text, url, imgUrl, buttons) {
     let column = document.createElement('div')
@@ -35,7 +35,7 @@ function generateCard(title, text, url, imgUrl, buttons) {
     body.appendChild(bodyText)
 
     card.appendChild(body)
-    // </card body>
+        // </card body>
 
     // <card footer>
     let footer = document.createElement('div')
@@ -62,10 +62,10 @@ function generateCard(title, text, url, imgUrl, buttons) {
     }
 
     card.appendChild(footer)
-    // </footer>
+        // </footer>
 
     column.appendChild(card)
-    // </card>
+        // </card>
 
     return column
 }

@@ -4,18 +4,18 @@ export default [{
         url: 'https://ishetaltijdvooreenbakkieyoghurt.nl',
         buttons: [{ text: 'Github', url: 'https://github.com/Davvos11/ishetaltijdvooreenbakkieyoghurt' }]
     },
-    {
-        title: 'Share',
-        description: 'Get a temporary URL for uploaded files',
-        url: 'https://share.dovatvis.nl',
-        buttons: [{ text: 'Github', url: 'https://github.com/Davvos11/share' }]
-    },
-    {
-        title: 'Beugelcompetitie',
-        description: 'Haha trek beugel-ad',
-        url: 'https://beugels.dovatvis.nl',
-        buttons: [{ text: 'Github', url: 'https://github.com/Davvos11/beugelcompetitie' }]
-    },
+    // {
+    //     title: 'Share',
+    //     description: 'Get a temporary URL for uploaded files',
+    //     url: 'https://share.dovatvis.nl',
+    //     buttons: [{ text: 'Github', url: 'https://github.com/Davvos11/share' }]
+    // },
+    // {
+    //     title: 'Beugelcompetitie',
+    //     description: 'Haha trek beugel-ad',
+    //     url: 'https://beugels.dovatvis.nl',
+    //     buttons: [{ text: 'Github', url: 'https://github.com/Davvos11/beugelcompetitie' }]
+    // },
     {
         title: 'Escalatie',
         description: 'Alle escalatiemixen',
