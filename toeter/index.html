@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="toeter.ico"/>
-    <link rel="icon" href="toeter.png"/>
+    <link rel="icon" href="toeter.ico" />
+    <link rel="icon" href="toeter.png" />
     <title>Toeter!</title>
     <style>
         body {
@@ -14,21 +15,21 @@
             min-height: 100vh;
             margin: 0;
         }
-
+        
         body.dark {
             background-color: black;
         }
-
+        
         #corner {
             position: absolute;
             top: 0;
             right: 0;
         }
-
+        
         #wrapper {
             max-width: 400px;
         }
-
+        
         #toeter {
             cursor: pointer;
             max-width: 100%;
@@ -36,47 +37,49 @@
         }
     </style>
 </head>
+
 <body class="dark">
-<div id="wrapper">
-    <img src="toeter.png" alt="toeter" id="toeter" onclick="toeter()"/>
-</div>
-<div id="corner">
-    <button id="dark-mode-btn" onclick="darkMode()">Dark mode</button>
-    <button id="light-mode-btn" onclick="lightMode()">Light mode</button>
-</div>
-<script>
-    // (To expose media controls, a file needs to be more than 5 seconds long)
-    const toeterAudio = new Audio("toeter.ogg")
-    // Pause the audio after the toeter has been played, so that the media session stays active
-    toeterAudio.ontimeupdate = () => {
-        if (toeterAudio.currentTime >= 2) {
-            toeterAudio.pause()
+    <div id="wrapper">
+        <img src="toeter.png" alt="toeter" id="toeter" onclick="toeter()" />
+    </div>
+    <div id="corner">
+        <button id="dark-mode-btn" onclick="darkMode()">Dark mode</button>
+        <button id="light-mode-btn" onclick="lightMode()">Light mode</button>
+    </div>
+    <script>
+        // (To expose media controls, a file needs to be more than 5 seconds long)
+        const toeterAudio = new Audio("toeter.flac")
+            // Pause the audio after the toeter has been played, so that the media session stays active
+        toeterAudio.ontimeupdate = () => {
+            if (toeterAudio.currentTime >= 2) {
+                toeterAudio.pause()
+            }
         }
-    }
 
-    const toeter = async () => {
-        toeterAudio.currentTime = 0;
-        await toeterAudio.play()
+        const toeter = async() => {
+            toeterAudio.currentTime = 0;
+            await toeterAudio.play()
 
-        // Check if the browser supports media sessions, and add the handler for the skip button
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.setActionHandler('nexttrack', toeter)
+            // Check if the browser supports media sessions, and add the handler for the skip button
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.setActionHandler('nexttrack', toeter)
+            }
         }
-    }
 
-    const darkMode = () => {
-        document.body.classList.add("dark")
+        const darkMode = () => {
+            document.body.classList.add("dark")
+            document.getElementById("dark-mode-btn").hidden = true
+            document.getElementById("light-mode-btn").hidden = false
+        }
+
+        const lightMode = () => {
+            document.body.classList.remove("dark")
+            document.getElementById("dark-mode-btn").hidden = false
+            document.getElementById("light-mode-btn").hidden = true
+        }
+
         document.getElementById("dark-mode-btn").hidden = true
-        document.getElementById("light-mode-btn").hidden = false
-    }
-
-    const lightMode = () => {
-        document.body.classList.remove("dark")
-        document.getElementById("dark-mode-btn").hidden = false
-        document.getElementById("light-mode-btn").hidden = true
-    }
-
-    document.getElementById("dark-mode-btn").hidden = true
-</script>
+    </script>
 </body>
+
 </html>
