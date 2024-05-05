@@ -1,3 +1,9 @@
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333; /* Dark gray background */
+    }
+}
+
 #cards .card-img-top {
     height: 200px;
 }
