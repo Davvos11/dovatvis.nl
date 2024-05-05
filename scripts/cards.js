@@ -1,6 +1,6 @@
 import projects from "/projects.js?c=3"
 
-function generateCard(title, text, url, imgUrl, buttons) {
+function generateCard(title, text, url, imgUrl, buttons, icons, iconsOnButtons) {
     let column = document.createElement('div')
     column.className = "col-md-4 mb-5"
 
@@ -10,11 +10,14 @@ function generateCard(title, text, url, imgUrl, buttons) {
 
     let img = document.createElement('div')
     img.className = `card-img-top ${randomColourClass('bg')}`
+    let imgLink = document.createElement('a')
+    imgLink.href = url
     if (imgUrl !== "" && imgUrl !== undefined) {
         let imgImg = document.createElement('img')
         imgImg.src = imgUrl
-        img.appendChild(imgImg)
+        imgLink.appendChild(imgImg)
     }
+    img.appendChild(imgLink)
     card.appendChild(img)
 
     // <card body>
@@ -49,8 +52,30 @@ function generateCard(title, text, url, imgUrl, buttons) {
         buttonElement.className = `btn ${randomColourClass('btn')}`
         buttonElement.text = button['text']
         buttonElement.href = button['url']
+        if (iconsOnButtons) {
+            let icon = icons[i]
+            let iconElement = document.createElement('i')
+            iconElement.className = icon + ' icon'
+            buttonElement.text += ' '
+            buttonElement.appendChild(iconElement)
+        }
 
         footer.appendChild(buttonElement)
+    }
+
+    if (!iconsOnButtons) {
+        for (let i in icons) {
+            if (!icons.hasOwnProperty(i)) continue
+
+            let icon = icons[i]
+            let iconWrapper = document.createElement('div')
+            iconWrapper.className = 'icon-wrapper'
+            let iconElement = document.createElement('i')
+            iconElement.className = icon + ' icon'
+
+            iconWrapper.appendChild(iconElement)
+            footer.appendChild(iconWrapper)
+        }
     }
 
     if (buttons === undefined || buttons.length === 0) {
@@ -77,8 +102,15 @@ function generateCards(projects) {
         if (!projects.hasOwnProperty(i)) continue
 
         let project = projects[i]
-        cards.append(generateCard(project['title'], project['description'],
-            project['url'], project['imgUrl'], project['buttons']))
+        cards.append(generateCard(
+            project['title'],
+            project['description'],
+            project['url'],
+            project['imgUrl'],
+            project['buttons'],
+            project['icons'],
+            project['iconsOnButtons']
+        ))
     }
 }
 

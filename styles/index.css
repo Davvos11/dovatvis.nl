@@ -4,4 +4,35 @@
 
 #cards .card-img-top img {
     height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+#cards .card-footer {
+    display: flex;
+    /*align-items: baseline;*/
+    /*align-content: flex-start;*/
+    flex-wrap: wrap;
+}
+
+#cards .card-footer > * {
+    margin-bottom: 5px;
+}
+
+#cards .card-footer .btn:not(:last-child) {
+    margin-right: 10px;
+}
+
+#cards .card-footer .icon-wrapper {
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#cards .card-footer .icon-wrapper:first-of-type {
+    margin-left: auto;
+}
+
+#cards .card-footer .icon-wrapper {
+    font-size: 2em;
 }
