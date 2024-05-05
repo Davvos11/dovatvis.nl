@@ -9,7 +9,8 @@ function generateCard(title, text, url, imgUrl, buttons, icons, iconsOnButtons) 
     card.className = "card h-100"
 
     let img = document.createElement('div')
-    img.className = `card-img-top ${randomColourClass('bg')}`
+    img.className = `card-img-top`
+    img.style.backgroundColor = randomColour()
     let imgLink = document.createElement('a')
     imgLink.href = url
     if (imgUrl !== "" && imgUrl !== undefined) {
@@ -49,7 +50,8 @@ function generateCard(title, text, url, imgUrl, buttons, icons, iconsOnButtons) 
 
         let button = buttons[i]
         let buttonElement = document.createElement('a')
-        buttonElement.className = `btn ${randomColourClass('btn')}`
+        buttonElement.className = `btn`
+        buttonElement.style.backgroundColor = randomColour()
         buttonElement.text = button['text']
         buttonElement.href = button['url']
         if (iconsOnButtons) {
@@ -114,10 +116,22 @@ function generateCards(projects) {
     }
 }
 
-function randomColourClass(bootstrapType) {
-    const classes = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark']
-        .map(e => `${bootstrapType}-${e}`)
-    return classes[randInt(0, classes.length)]
+let history = []
+function randomColour() {
+    const colours = [
+        "#3588d1", "#bbc3fe", "#e68dd9", "#fe1d66",
+        "#34f199", "#fb5de7", "#35afa6", "#f34207",
+        "#9bd535", "#f6d91a"
+    ]
+    let pick;
+    do {
+        pick = colours[randInt(0, colours.length)]
+    } while (history.includes(pick))
+    history.push(pick)
+    if (history.length > 3) {
+        history.shift()
+    }
+    return pick
 }
 
 generateCards(projects)
