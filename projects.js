@@ -8,7 +8,7 @@ export default [
             {text: 'Github', url: 'https://github.com/Davvos11/live-midi-splitter'},
             {text: 'Download', url: 'https://github.com/Davvos11/live-midi-splitter/releases'},
         ],
-        // icons: ['devicon-rust-original', 'devicon-linux-plain']
+        icons: ['devicon-rust-original', 'devicon-linux-plain']
     },
     {
         title: 'ZwieberSynth',
@@ -33,7 +33,7 @@ export default [
             {text: '2022', url: 'https://github.com/Davvos11/AoC2022'},
             {text: '2023', url: 'https://github.com/Davvos11/AoC2023'},
         ],
-        icons: ['', 'devicon-java-plain', 'devicon-python-plain', 'devicon-python-plain', 'devicon-python-plain'],
+        icons: ['', 'devicon-java-plain', 'devicon-python-plain', 'devicon-python-plain', 'devicon-rust-plain'],
         iconsOnButtons: true
     },
     {
