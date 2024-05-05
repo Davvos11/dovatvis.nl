@@ -1,3 +1,15 @@
 .d-hidden {
     visibility: hidden;
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333; /* Dark gray background */
+    }
+}
+
+.logo {
+    width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+}
