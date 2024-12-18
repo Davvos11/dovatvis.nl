@@ -32,8 +32,9 @@ export default [
             {text: '2020', url: 'https://github.com/Davvos11/AoC2020'},
             {text: '2022', url: 'https://github.com/Davvos11/AoC2022'},
             {text: '2023', url: 'https://github.com/Davvos11/AoC2023'},
+            {text: '2024', url: 'https://github.com/Davvos11/aoc_2024'},
         ],
-        icons: ['', 'devicon-java-plain', 'devicon-python-plain', 'devicon-python-plain', 'devicon-rust-plain'],
+        icons: ['', 'devicon-java-plain', 'devicon-python-plain', 'devicon-python-plain', 'devicon-rust-plain', 'devicon-rust-plain'],
         iconsOnButtons: true
     },
     {
