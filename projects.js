@@ -49,6 +49,17 @@ export default [
         icons: ['devicon-rust-original', 'devicon-linux-plain']
     },
     {
+        title: 'MIDI toolies',
+        description: 'Various MIDI plugins',
+        url: 'https://github.com/Davvos11/midi-toolies',
+        // imgUrl: '/assets/zwiebersynth.png',
+        buttons: [
+            {text: 'Github', url: 'https://github.com/Davvos11/midi-toolies'},
+            {text: 'Download', url: 'https://github.com/Davvos11/midi-toolies/releases'},
+        ],
+        icons: ['devicon-rust-original']
+    },
+    {
         title: 'Youtube chat viewer',
         description: 'Webapp to view multiple Youtube chats as an overlay in e.g. OBS',
         url: 'https://github.com/Davvos11/youtube-chat-viewer',
