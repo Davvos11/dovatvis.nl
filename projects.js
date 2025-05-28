@@ -59,6 +59,17 @@ export default [
         icons: ['devicon-rust-original']
     },
     {
+        title: 'Docker puller',
+        description: 'Small webserver that updates Docker containers, useful for CD',
+        url: 'https://github.com/Davvos11/docker-puller',
+        imgUrl: 'assets/github-action.png',
+        buttons: [
+            {text: 'Github', url: 'https://github.com/Davvos11/docker-puller'},
+            {text: 'Download', url: 'https://github.com/Davvos11/docker-puller/releases'},
+        ],
+        icons: ['devicon-rust-original']
+    },
+    {
         title: 'MIDI toolies',
         description: 'Various MIDI plugins',
         url: 'https://github.com/Davvos11/midi-toolies',
