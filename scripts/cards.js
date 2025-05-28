@@ -1,4 +1,4 @@
-import projects from "/projects.js?c=6"
+import projects from "/projects.js?c=9"
 
 function generateCard(title, text, url, imgUrl, buttons, icons, iconsOnButtons) {
     let column = document.createElement('div')

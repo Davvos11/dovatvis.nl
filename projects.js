@@ -49,6 +49,16 @@ export default [
         icons: ['devicon-rust-original', 'devicon-linux-plain']
     },
     {
+        title: 'Slack Calendar status',
+        description: 'Set your Slack notification schedule and out-of-office status based on your calendar.',
+        url: 'https://github.com/Davvos11/slack-calendar-status',
+        imgUrl: 'assets/slack.png',
+        buttons: [
+            {text: 'Github', url: 'https://github.com/Davvos11/slack-calendar-status'},
+        ],
+        icons: ['devicon-rust-original']
+    },
+    {
         title: 'MIDI toolies',
         description: 'Various MIDI plugins',
         url: 'https://github.com/Davvos11/midi-toolies',
