@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bierprijs trainer</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css">
+
+    <script src="https://kit.fontawesome.com/bc451147a3.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./style.css">
+
+    <script src="./data.js?t=6"></script>
+</head>
+<body>
+<main class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="info row">
+                <h1>Bierprijs trainer</h1>
+            </div>
+            <hr>
+
+            <label>
+                <input type="checkbox" id="bier-only"> Alleen bier
+            </label>
+
+            <hr>
+
+            <div class="row">
+                <ul id="question"></ul>
+            </div>
+
+            <div class="row">
+                <label>
+                    <span>Prijs: </span>
+                    <input type="number" id="answer" autocomplete="off">
+                    <span>cent</span>
+                </label>
+            </div>
+
+            <div class="row">
+                <span id="result" class="d-none badge bg-danger">Fout...</span>
+            </div>
+
+            <hr>
+
+            <div class="accordion" id="accordionBasic">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Tafel van 1,70
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                         data-bs-parent="#accordionBasic">
+                        <div class="accordion-body">
+                            1: 1,70<br>
+                            2: 3,40<br>
+                            3: 5,10<br>
+                            4: 6,80<br>
+                            5: 8,50<br>
+                            6: 10,20<br>
+                            7: 11,90<br>
+                            8: 13,60<br>
+                            9: 15,30<br>
+                            10: 17,00
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3>Stats:</h3>
+            <div class="col"><span id="correct-count">0</span> correct</div>
+            <div class="col">Vorige tijd: <span id="latest-time">0</span> seconden</div>
+            <div class="col">Snelste tijd: <span id="fastest-time">0</span> seconden</div>
+            <div class="col">Langzaamste tijd: <span id="slowest-time">0</span> seconden</div>
+        </div>
+    </div>
+</main>
+<script>
+    function selectWeightedElement(items) {
+        let total = items.reduce((acc, item) => acc + item["weight"], 0);
+        let threshold = Math.random() * total;
+
+        for (let item of items) {
+            threshold -= item["weight"];
+            if (threshold < 0) {
+                return item;
+            }
+        }
+    }
+
+    const answer_element = document.getElementById("answer");
+    const bier_only_element = document.getElementById("bier-only");
+
+    let correct_answer = 0;
+    let correct_count = 0;
+    let fastest = Infinity;
+    let slowest = 0;
+    let start_timestamp = Date.now();
+
+    function start_question() {
+        correct_answer = 0;
+        const items = {};
+
+        let max = 20;
+        if (bier_only_element.checked) {
+            max = 11
+        }
+        for (let i = 0; i < Math.random() * max; i++) {
+            let new_item;
+            if (bier_only_element.checked) {
+                new_item = BIER;
+            } else {
+                new_item = structuredClone(selectWeightedElement(ITEMS));
+            }
+            if (items[new_item['name']] === undefined) {
+                new_item['count'] = 1;
+                items[new_item['name']] = new_item;
+            } else {
+                items[new_item['name']]['count']++;
+            }
+            correct_answer += new_item['price'];
+        }
+
+        let html = "";
+        for (const item of Object.values(items)) {
+            html += `<li>${item['count']} ${item['name']}</li>`
+        }
+
+        document.getElementById('question').innerHTML = html;
+        answer_element.value = "";
+        answer_element.focus();
+        start_timestamp = Date.now();
+    }
+
+    start_question();
+
+
+    function check_answer() {
+        const result_element = document.getElementById('result');
+        if (answer_element.value == correct_answer) {
+            const time = (Date.now() - start_timestamp) / 1000;
+            result_element.classList.add("d-none");
+            correct_count += 1;
+            document.getElementById('correct-count').innerText = correct_count;
+            document.getElementById('latest-time').innerText = time;
+            if (time < fastest) {
+                fastest = time;
+                document.getElementById('fastest-time').innerText = fastest;
+            }
+            if (time > slowest) {
+                slowest = time;
+                document.getElementById('slowest-time').innerText = slowest;
+            }
+            start_question();
+        } else {
+            result_element.classList.remove("d-none");
+        }
+    }
+
+    answer_element.onkeyup = (ev) => {
+        if (ev.key === "Enter") {
+            check_answer();
+        }
+    };
+
+    bier_only_element.onclick = (ev) => {
+        start_question();
+    }
+</script>
+</body>
+</html>

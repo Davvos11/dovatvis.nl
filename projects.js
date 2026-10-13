@@ -1,5 +1,15 @@
 export default [
     {
+        title: 'Zon in de trein',
+        description: 'Aan welke kant van de trein zit ik in de zon?',
+        url: 'https://zonindetrein.nl',
+        imgUrl: 'https://zonindetrein.nl/static/logo.png',
+        buttons: [
+            {text: 'Github', url: 'https://github.com/Davvos11/trein-schaduw'},
+        ],
+        icons: ['devicon-python-plain']
+    },
+    {
         title: 'Live Midi Splitter',
         description: 'Tool to control multiple MIDI instruments using one keyboard',
         url: 'https://github.com/Davvos11/live-midi-splitter',
@@ -47,6 +57,16 @@ export default [
             {text: 'Download', url: 'https://github.com/Davvos11/low-ram-notifier/releases'},
         ],
         icons: ['devicon-rust-original', 'devicon-linux-plain']
+    },
+    {
+        title: 'Slack Spotify preview',
+        description: ' Send preview messages for open.spotify.com links in Slack ',
+        url: 'https://github.com/Davvos11/slack-spotify-preview',
+        imgUrl: '/assets/slack-spotify-preview.png',
+        buttons: [
+            {text: 'Github', url: 'https://github.com/Davvos11/slack-spotify-preview'},
+        ],
+        icons: ['devicon-python-plain']
     },
     {
         title: 'Slack Calendar status',

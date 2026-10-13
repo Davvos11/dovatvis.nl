@@ -1,0 +1,24 @@
+.container {
+    max-width: 800px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.info *:first-child {
+    flex-grow: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #222;
+        color: #ddd;
+    }
+
+    a {
+        color: #0088ff;
+    }
+}

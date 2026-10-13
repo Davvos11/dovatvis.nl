@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toeteraars Cheat Sheet</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #666666;
+      --border: #ded6ca;
+      --accent: #2f6f73;
+      --accent-soft: #e4f0f1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 18px 56px;
+    }
+
+    header {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: end;
+      padding: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    select, button {
+      font: inherit;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      background: white;
+      color: var(--text);
+    }
+
+    button {
+      cursor: pointer;
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+
+    button:hover { filter: brightness(0.95); }
+
+    .sections {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    th, td {
+      width: 33.333%;
+      border-bottom: 1px solid var(--border);
+      padding: 11px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background: var(--accent-soft);
+      color: #183b3e;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .note {
+      display: inline-block;
+      min-width: 2.15em;
+      text-align: center;
+      padding: 5px 8px;
+      background: #f2eee8;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 5mm;
+      }
+
+      body { background: white; }
+      body { color: #000; }
+
+      main {
+        max-width: none;
+        padding: 0;
+      }
+
+      header {
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+
+      h1 {
+        font-size: 20pt;
+        text-align: center;
+        color: #000;
+      }
+
+      .controls { display: none; }
+
+      .sections {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .section {
+        break-inside: avoid;
+        box-shadow: none;
+        padding: 0px;
+        border: 0;
+      }
+
+      .section h2 {
+        margin-bottom: 4px;
+        font-size: 15pt;
+      }
+
+      table {
+        border-radius: 0;
+        border: 0;
+        font-size: 15pt;
+      }
+
+      th, td {
+        padding: 5px 6px;
+        border-bottom: 1px solid #000;
+      }
+
+      th {
+        font-size: 9pt;
+        letter-spacing: 0.02em;
+        background: transparent;
+        color: #000;
+      }
+
+      tr:last-child td { border-bottom: 0; }
+
+      .note {
+        display: inline;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1 id="pageTitle">Toeteraars Cheat Sheet</h1>
+    </header>
+
+    <section class="controls" aria-label="Cheat sheet controls">
+      <label>
+        Toonsoort
+        <select id="keySelect"></select>
+      </label>
+      <label>
+        Accidentals
+        <select id="spellingSelect">
+          <option value="auto">Auto</option>
+          <option value="sharps">Sharps</option>
+          <option value="flats">Flats</option>
+        </select>
+      </label>
+      <button id="printButton" type="button">Print</button>
+    </section>
+
+    <section class="sections" id="cheatSheet"></section>
+  </main>
+
+  <script>
+    const BASE_KEY = "C";
+
+    const KEYS = [
+      { name: "C", offset: 0, signature: "" },
+      { name: "G", offset: 7, signature: "1 sharp" },
+      { name: "D", offset: 2, signature: "2 sharps" },
+      { name: "A", offset: 9, signature: "3 sharps" },
+      { name: "E", offset: 4, signature: "4 sharps" },
+      { name: "B", offset: 11, signature: "5 sharps" },
+      { name: "F#", offset: 6, signature: "6 sharps" },
+      { name: "C#", offset: 1, signature: "7 sharps" },
+      { name: "F", offset: 5, signature: "1 flat" },
+      { name: "Bb", offset: 10, signature: "2 flats" },
+      { name: "Eb", offset: 3, signature: "3 flats" },
+      { name: "Ab", offset: 8, signature: "4 flats" },
+      { name: "Db", offset: 1, signature: "5 flats" },
+      { name: "Gb", offset: 6, signature: "6 flats" },
+      { name: "Cb", offset: 11, signature: "7 flats" }
+    ];
+
+    const NOTE_TO_PC = {
+      "C": 0, "B#": 0,
+      "C#": 1, "Db": 1,
+      "D": 2,
+      "D#": 3, "Eb": 3,
+      "E": 4, "Fb": 4,
+      "F": 5, "E#": 5,
+      "F#": 6, "Gb": 6,
+      "G": 7,
+      "G#": 8, "Ab": 8,
+      "A": 9,
+      "A#": 10, "Bb": 10,
+      "B": 11, "Cb": 11
+    };
+
+    const NATURAL_PC = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+    const LETTERS = ["C", "D", "E", "F", "G", "A", "B"];
+    const LETTER_INDEX = { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6 };
+    const NOTE_PARTS = /^([A-G])([#b]*)$/;
+
+    const SECTIONS = [
+      {
+        title: "Ik ben Staal of Puck of Wesley",
+        columns: ["Luc zegt", "David of Daan zegt", "Dan speel ik"],
+        rows: [
+          ["A", "C", "D"],
+          ["B", "D", "E"],
+          ["C#", "E", "F#"],
+          ["D", "F", "G"],
+          ["E", "G", "A"],
+          ["F#", "A", "B"],
+          ["G#", "B", "C#"]
+        ]
+      },
+      {
+        title: "Ik ben Luc",
+        columns: ["Staal of Puck of Wesley zegt", "David of Daan zegt", "Dan speel ik"],
+        rows: [
+          ["D", "C", "A"],
+          ["E", "D", "B"],
+          ["F#", "E", "C#"],
+          ["G", "F", "D"],
+          ["A", "G", "E"],
+          ["B", "A", "F#"],
+          ["C#", "B", "G#"]
+        ]
+      },
+      {
+        title: "Ik ben David of Daan",
+        columns: ["Staal of Puck of Wesley zegt", "Luc zegt", "Dan speel ik"],
+        rows: [
+          ["D", "A", "C"],
+          ["E", "B", "D"],
+          ["F#", "C#", "E"],
+          ["G", "D", "F"],
+          ["A", "E", "G"],
+          ["B", "F#", "A"],
+          ["C#", "G", "B"]
+        ]
+      }
+    ];
+
+    const keySelect = document.querySelector("#keySelect");
+    const spellingSelect = document.querySelector("#spellingSelect");
+    const cheatSheet = document.querySelector("#cheatSheet");
+    const printButton = document.querySelector("#printButton");
+    const pageTitle = document.querySelector("#pageTitle");
+
+    function init() {
+      for (const key of KEYS) {
+        const option = document.createElement("option");
+        option.value = key.name;
+        option.textContent = `${key.name} major (${key.signature})`;
+        if (!key.signature) {
+          option.textContent = `${key.name} major`;
+        }
+        keySelect.appendChild(option);
+      }
+
+      keySelect.value = BASE_KEY;
+      keySelect.addEventListener("change", render);
+      spellingSelect.addEventListener("change", render);
+      printButton.addEventListener("click", () => window.print());
+      render();
+    }
+
+    function getCurrentKey() {
+      return KEYS.find(key => key.name === keySelect.value) || KEYS[0];
+    }
+
+    function parseNote(note) {
+      const match = note.match(NOTE_PARTS);
+      if (!match) {
+        throw new Error(`Unknown note: ${note}`);
+      }
+
+      return {
+        letter: match[1],
+        accidentals: match[2]
+      };
+    }
+
+    function accidentalText(offset) {
+      if (offset > 0) return "#".repeat(offset);
+      if (offset < 0) return "b".repeat(Math.abs(offset));
+      return "";
+    }
+
+    function transposeNoteSmart(note, key) {
+      const source = parseNote(note);
+      const sourcePc = NOTE_TO_PC[note];
+      if (sourcePc === undefined) {
+        throw new Error(`Unknown note: ${note}`);
+      }
+
+      const targetPc = mod(sourcePc + key.offset, 12);
+      const sourceLetterIndex = LETTER_INDEX[source.letter];
+
+      // C major is the source. Keep each row's letter relationship intact:
+      // C -> key tonic, D -> second scale letter, Eb -> flat third, etc.
+      const targetLetter = LETTERS[mod(sourceLetterIndex + LETTER_INDEX[key.name[0]], 7)];
+      const naturalPc = NATURAL_PC[targetLetter];
+      const accidental = mod(targetPc - naturalPc + 6, 12) - 6;
+
+      return targetLetter + accidentalText(accidental);
+    }
+
+    function transposeNote(note, semitones, spelling) {
+      // Manual override kept for the dropdown's Sharps/Flats modes.
+      const pitchClass = NOTE_TO_PC[note];
+      if (pitchClass === undefined) {
+        throw new Error(`Unknown note: ${note}`);
+      }
+
+      const transposed = mod(pitchClass + semitones, 12);
+      const sharpNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+      const flatNames = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+      const names = spelling === "sharps" ? sharpNames : flatNames;
+      return names[transposed];
+    }
+
+    function mod(number, modulo) {
+      return ((number % modulo) + modulo) % modulo;
+    }
+
+    function render() {
+      const key = getCurrentKey();
+      const spelling = spellingSelect.value;
+
+      const title = `Toeteraars Cheat Sheet (${key.name})`;
+      document.title = title;
+      pageTitle.textContent = title;
+
+      cheatSheet.innerHTML = "";
+
+      for (const section of SECTIONS) {
+        const card = document.createElement("article");
+        card.className = "section";
+
+        const title = document.createElement("h2");
+        title.textContent = section.title;
+        card.appendChild(title);
+
+        const table = document.createElement("table");
+        table.innerHTML = `
+          <thead>
+            <tr>
+              ${section.columns.map(column => `<th>${column}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody></tbody>
+        `;
+
+        const tbody = table.querySelector("tbody");
+        section.rows.forEach(row => {
+          const transposed = row.map(note => {
+            return spelling === "auto"
+              ? transposeNoteSmart(note, key)
+              : transposeNote(note, key.offset, spelling);
+          });
+          const tr = document.createElement("tr");
+          tr.innerHTML = transposed
+            .map(note => `<td><span class="note">${note}</span></td>`)
+            .join("");
+          tbody.appendChild(tr);
+        });
+
+        card.appendChild(table);
+        cheatSheet.appendChild(card);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

