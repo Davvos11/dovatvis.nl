@@ -10,6 +10,24 @@ spec:
     - dovatvis.nl
     - www.dovatvis.nl
   rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /het-bestand
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /het-bestand/
+            statusCode: 301
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /het-bestand/
+      backendRefs:
+        - name: het-bestand
+          port: 80
     - backendRefs:
         - name: dovatvis-nl
           port: 80

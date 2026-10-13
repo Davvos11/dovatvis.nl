@@ -28,11 +28,6 @@ spec:
             - name: files
               mountPath: /srv/files
               readOnly: true
-            - name: het-bestand
-              mountPath: /srv/gdrive
-              readOnly: true
-              # Google Drive FUSE mount on the host; may (re)appear after pod start.
-              mountPropagation: HostToContainer
           readinessProbe:
             httpGet:
               path: /healthz
@@ -51,7 +46,3 @@ spec:
         - name: files
           persistentVolumeClaim:
             claimName: files
-        - name: het-bestand
-          hostPath:
-            path: /home/david/servers/gdrive
-            type: Directory

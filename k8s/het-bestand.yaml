@@ -1,0 +1,73 @@
+# /het-bestand: the "Het Bestand/opnames" folder on Google Drive, served read-only by rclone.
+# The remote is configured through RCLONE_CONFIG_GDRIVE_* in the dovatvis-nl-env Secret (infra-tg).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: het-bestand
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      component: het-bestand
+  template:
+    metadata:
+      labels:
+        component: het-bestand
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+      containers:
+        - name: rclone
+          image: rclone/rclone:1.75.2
+          args:
+            - serve
+            - http
+            - gdrive:Het Bestand/opnames
+            - --addr=:8080
+            - --baseurl=/het-bestand
+            - --read-only
+          env:
+            - name: HOME
+              value: /tmp
+          envFrom:
+            - secretRef:
+                name: dovatvis-nl-env
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: het-bestand
+spec:
+  selector:
+    component: het-bestand
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

@@ -8,6 +8,7 @@ resources:
   - pvc.yaml
   - deployment.yaml
   - service.yaml
+  - het-bestand.yaml
   - httproute.yaml
 
 labels:
