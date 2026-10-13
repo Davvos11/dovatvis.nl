@@ -1,0 +1,11 @@
+# Large/binary files served at the site root next to the image's files (dromendans.mp3, gedicht.pdf, afxdp).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: files
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi

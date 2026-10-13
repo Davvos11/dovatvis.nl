@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dovatvis-nl
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      component: web # keeps extra components (e.g. a redis Deployment) out of this selector
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: app
+          image: app # replaced by kustomize
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: files
+              mountPath: /srv/files
+              readOnly: true
+            - name: het-bestand
+              mountPath: /srv/gdrive
+              readOnly: true
+              # Google Drive FUSE mount on the host; may (re)appear after pod start.
+              mountPropagation: HostToContainer
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: files
+          persistentVolumeClaim:
+            claimName: files
+        - name: het-bestand
+          hostPath:
+            path: /home/david/servers/gdrive
+            type: Directory
